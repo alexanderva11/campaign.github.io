@@ -1,11 +1,208 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documento Próximamente</title>
+
+  <style>
+    :root {
+      --bg: #000000;
+      --card: #0f0f0f;
+      --text: #ffffff;
+      --muted: #a1a1aa;
+      --border: #262626;
+      --accent: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      padding: 40px 24px;
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 24px auto;
+      max-width: 300px;
+      width: 100%;
+      height: auto;
+    }
+
+    h1 {
+      font-size: 40px;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 40px 0;
+    }
+
+    .box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 24px 12px;
+      border-radius: 14px;
+    }
+
+    .number {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .label {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .download {
+      display: none;
+      margin-top: 24px;
+    }
+
+    .download a {
+      display: inline-block;
+      background: transparent;
+      border: 1px solid var(--text);
+      color: var(--text);
+      text-decoration: none;
+      padding: 14px 26px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .download a:hover {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .available {
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      .countdown {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <h3>Prueba de IO</h3>
+  <div class="container">
+    <img src="alejo.jpg" alt="Logo" class="logo" />
+    <h1>Carlos Alejo</h1>
+    <p id="message">Presentación de propuestas en:</p>
+
+    <div class="countdown" id="countdown">
+      <div class="box">
+        <div class="number" id="days">0</div>
+        <div class="label">Días</div>
+      </div>
+
+      <div class="box">
+        <div class="number" id="hours">0</div>
+        <div class="label">Horas</div>
+      </div>
+
+      <div class="box">
+        <div class="number" id="minutes">0</div>
+        <div class="label">Minutos</div>
+      </div>
+
+      <div class="box">
+        <div class="number" id="seconds">0</div>
+        <div class="label">Segundos</div>
+      </div>
+    </div>
+
+    <div class="download" id="download">
+      <p class="available">El documento ya está disponible.</p>
+      <a href="documento.pdf" target="_blank">Ver PDF</a>
+    </div>
+  </div>
+
+  <script>
+    const TARGET_DATE = "2026-05-08T09:00:00";
+
+    // Ajusta aquí la ruta del PDF
+    const PDF_URL = "documento.pdf";
+
+    const targetDate = new Date(TARGET_DATE).getTime();
+
+    const daysEl = document.getElementById("days");
+    const hoursEl = document.getElementById("hours");
+    const minutesEl = document.getElementById("minutes");
+    const secondsEl = document.getElementById("seconds");
+
+    const messageEl = document.getElementById("message");
+    const countdownEl = document.getElementById("countdown");
+    const downloadEl = document.getElementById("download");
+    const downloadLink = downloadEl.querySelector("a");
+
+    downloadLink.href = PDF_URL;
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance <= 0) {
+        messageEl.textContent = "Disponible ahora";
+        countdownEl.style.display = "none";
+        downloadEl.style.display = "block";
+        clearInterval(timer);
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+      const seconds = Math.floor((distance / 1000) % 60);
+
+      daysEl.textContent = days;
+      hoursEl.textContent = hours;
+      minutesEl.textContent = minutes;
+      secondsEl.textContent = seconds;
+    }
+
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+  </script>
 </body>
 </html>
