@@ -154,15 +154,13 @@
 
     <div class="download" id="download">
       <p class="available">El documento ya está disponible.</p>
-      <a href="documento.pdf" target="_blank">Ver PDF</a>
+      <a href="#" target="_blank">Ver PDF</a>
     </div>
   </div>
 
   <script>
-    const TARGET_DATE = "2026-05-08T09:00:00";
-
-    // Ajusta aquí la ruta del PDF
-    const PDF_URL = "documento.pdf";
+    const TARGET_DATE = "2026-05-03T18:02:00";
+    const PDF_URL = "#";
 
     const targetDate = new Date(TARGET_DATE).getTime();
 
@@ -181,6 +179,11 @@
     function updateCountdown() {
       const now = new Date().getTime();
       const distance = targetDate - now;
+
+      if (distance <= 0) {
+        window.location.href = PDF_URL;
+        return;
+      }
 
       if (distance <= 0) {
         messageEl.textContent = "Disponible ahora";
