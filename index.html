@@ -181,15 +181,11 @@
       const distance = targetDate - now;
 
       if (distance <= 0) {
-        window.location.href = PDF_URL;
-        return;
-      }
-
-      if (distance <= 0) {
         messageEl.textContent = "Disponible ahora";
         countdownEl.style.display = "none";
         downloadEl.style.display = "block";
         clearInterval(timer);
+        window.location.href = PDF_URL;
         return;
       }
 
